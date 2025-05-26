@@ -1,0 +1,27 @@
+{
+  "name": "@pandev-srl/better_ui",
+  "description": "BetterUI compiled assets",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/my-lib.umd.cjs",
+  "module": "./dist/my-lib.js",
+  "exports": {
+    ".": {
+      "import": "./dist/better_ui.js",
+      "require": "./dist/better_ui.umd.cjs"
+    },
+    "./style.css": "./dist/better_ui.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.1.7"
+  }
+}

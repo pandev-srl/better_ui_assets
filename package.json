@@ -4,24 +4,20 @@
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/my-lib.umd.cjs",
-  "module": "./dist/my-lib.js",
+  "main": "./dist/better_ui.umd.cjs",
+  "module": "./dist/better_ui.js",
   "exports": {
     ".": {
       "import": "./dist/better_ui.js",
       "require": "./dist/better_ui.umd.cjs"
-    },
-    "./style.css": "./dist/better_ui.css"
+    }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^6.3.5"
+    "build": "vite build"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.7"
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.13",
+    "vite": "^6.3.5"
   }
 }

@@ -6,8 +6,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   build: {
-    cssMinify: true,
-    minify: true,
+    plugins: [],
     lib: {
       entry: resolve(__dirname, "src/main.js"),
       name: "better_ui",

@@ -5,8 +5,9 @@ import ModalController from "./modal_controller.js";
 import SidebarController from "./sidebar_controller.js";
 import AccordionController from "./accordion_controller.js";
 import SelectController from "./select_controller.js";
+import RatingController from "./rating_controller.js";
 
-export { ExampleController, DropdownController, TabsController, ModalController, SidebarController, AccordionController, SelectController };
+export { ExampleController, DropdownController, TabsController, ModalController, SidebarController, AccordionController, SelectController, RatingController };
 
 export function registerBetterUiComponents(application) {
   application.register("example", ExampleController);
@@ -16,6 +17,7 @@ export function registerBetterUiComponents(application) {
   application.register("bui-sidebar", SidebarController);
   application.register("bui-accordion", AccordionController);
   application.register("select", SelectController);
+  application.register("bui-rating", RatingController);
 }
 
 console.log("CIAO");

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["trigger", "menu", "item"]
-  static values = { open: Boolean, currentIndex: Number }
+  static values = { open: Boolean, currentIndex: Number, selectable: Boolean }
   
   // Classi CSS per il focus management (Tailwind)
   static focusClasses = "bg-gray-100 text-gray-900"
@@ -58,8 +58,68 @@ export default class extends Controller {
   }
 
   // Azione per chiudere il dropdown quando viene cliccato un item
-  itemClick() {
+  itemClick(event) {
+    // Se il dropdown è selectable, aggiorna il trigger con il contenuto dell'item
+    if (this.selectableValue) {
+      // Previeni la navigazione immediata per permettere l'aggiornamento del trigger
+      const clickedElement = event.target
+      const itemElement = clickedElement.closest('[data-bui-dropdown-target="item"]')
+      const hasHref = itemElement && (itemElement.hasAttribute('href') || itemElement.href)
+      
+      if (hasHref) {
+        event.preventDefault()
+        
+        // Aggiorna il trigger
+        this.updateTriggerFromItem(clickedElement)
+        
+        // Chiudi il dropdown
+        this.close()
+        
+        // Ritarda la navigazione per permettere di vedere il trigger aggiornato
+        setTimeout(() => {
+          if (itemElement.href) {
+            window.location.href = itemElement.href
+          } else if (itemElement.hasAttribute('href')) {
+            window.location.href = itemElement.getAttribute('href')
+          }
+        }, 300) // 300ms di delay per vedere l'aggiornamento
+        
+        return
+      }
+      
+      // Se non c'è href, procedi normalmente
+      this.updateTriggerFromItem(clickedElement)
+    }
+    
     this.close()
+  }
+
+  // Aggiorna il trigger con il contenuto dell'item selezionato
+  updateTriggerFromItem(clickedElement) {
+    // Trova l'elemento dell'item (potrebbe essere un elemento figlio)
+    const itemElement = clickedElement.closest('[data-bui-dropdown-target="item"]')
+    
+    if (!itemElement) {
+      console.warn('Item element not found for selectable dropdown')
+      return
+    }
+    
+    // Estrae il contenuto testuale dell'item
+    const itemContent = itemElement.innerHTML
+    
+    // Mantiene il chevron esistente se presente nel trigger
+    const chevronIcon = this.triggerTarget.querySelector('svg')
+    const chevronHTML = chevronIcon ? chevronIcon.outerHTML : ''
+    
+    // Rimuove eventuali SVG/icone dal contenuto dell'item per evitare duplicati
+    const cleanItemContent = itemContent.replace(/<svg[^>]*>.*?<\/svg>/gi, '').trim()
+    
+    // Aggiorna il trigger mantenendo il chevron alla fine
+    if (chevronHTML) {
+      this.triggerTarget.innerHTML = `${cleanItemContent} ${chevronHTML}`
+    } else {
+      this.triggerTarget.innerHTML = cleanItemContent
+    }
   }
 
   // Gestione eventi tastiera
